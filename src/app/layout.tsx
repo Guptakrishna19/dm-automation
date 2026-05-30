@@ -4,7 +4,8 @@ import { Geist, Geist_Mono, Inter } from 'next/font/google'
 import { SiteHeader } from '@/components/app/site-header'
 import './globals.css'
 import { cn } from "@/lib/utils";
-
+import { ThemeProvider } from '@/components/theme-provider'
+import {Toaster} from 'sonner'
 const inter = Inter({subsets:['latin'],variable:'--font-sans'});
 
 const geistSans = Geist({
@@ -30,10 +31,17 @@ export default function RootLayout({
   return (
     <html lang="en" className={cn("font-sans", inter.variable)}>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <ClerkProvider signInUrl="/sign-in" signUpUrl="/sign-up">
-          <SiteHeader />
-          {children}
-        </ClerkProvider>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <ClerkProvider signInUrl="/sign-in" signUpUrl="/sign-up">
+            <SiteHeader />
+            {children}
+          </ClerkProvider>
+        </ThemeProvider>
       </body>
     </html>
   )
